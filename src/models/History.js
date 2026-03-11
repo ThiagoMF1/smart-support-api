@@ -9,13 +9,16 @@ const historySchema = new mongoose.Schema(
     },
     field: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     oldValue: {
-      type: String
+      type: String,
+      default: ''
     },
     newValue: {
-      type: String
+      type: String,
+      default: ''
     },
     changedBy: {
       type: mongoose.Schema.Types.ObjectId,

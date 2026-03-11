@@ -14,7 +14,8 @@ const commentSchema = new mongoose.Schema(
     },
     message: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     }
   },
   {
