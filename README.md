@@ -4,10 +4,23 @@
 ![Express](https://img.shields.io/badge/Express.js-REST%20API-black)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Database-green)
 ![JWT](https://img.shields.io/badge/JWT-Auth-orange)
-![Status](https://img.shields.io/badge/Status-In%20Progress-blue)
+![Swagger](https://img.shields.io/badge/Swagger-API%20Docs-brightgreen)
+![Status](https://img.shields.io/badge/Status-Version%201-blue)
 ![Focus](https://img.shields.io/badge/Focus-Backend-blueviolet)
 
-A backend project created to simulate a support ticket system with authentication, ticket management, and business rules.
+A backend project created to simulate a support ticket system with authentication, ticket management, comments, history tracking, dashboard metrics, and Swagger documentation.
+
+---
+
+## Project Highlights
+
+- JWT authentication with protected routes
+- Ticket creation and status management
+- Automatic priority calculation
+- Comment system by ticket
+- Ticket history tracking
+- Dashboard with ticket metrics
+- Swagger documentation for API routes
 
 ---
 
@@ -15,9 +28,9 @@ A backend project created to simulate a support ticket system with authenticatio
 
 I created this project to practice backend development with something that feels more like a real system and less like a basic CRUD from tutorials.
 
-The idea is to build an API where users can create support tickets, track updates, manage ticket status, and organize technical issues in a structured way.
+The main idea is to build an API where users can create support tickets, update ticket status, add comments, track ticket history, and view dashboard data in a structured way.
 
-I wanted to work on something that could help me improve my skills with Node.js, Express, MongoDB, REST APIs, authentication, and backend organization.
+I wanted to work on something that could help me improve my skills with Node.js, Express, MongoDB, REST APIs, authentication, middleware, and backend organization.
 
 ---
 
@@ -28,7 +41,9 @@ I wanted to work on something that could help me improve my skills with Node.js,
 - Work with authentication and protected routes
 - Create ticket, comment, and history models
 - Practice business rules and data relationships
-- Build a project for my portfolio as a backend student
+- Add dashboard endpoints
+- Document the API with Swagger
+- Build a portfolio project as a backend student
 
 ---
 
@@ -42,6 +57,52 @@ I wanted to work on something that could help me improve my skills with Node.js,
 - bcryptjs
 - dotenv
 - cors
+- Swagger UI Express
+- swagger-jsdoc
+
+---
+
+## Features
+
+### Authentication
+- User registration
+- User login
+- JWT token generation
+- Protected routes
+- Get current authenticated user
+
+### Tickets
+- Create ticket
+- List all tickets
+- Get ticket by id
+- Update ticket
+- Close ticket
+- Reopen ticket
+
+### Business Rules
+- Automatic priority calculation
+- Category validation
+- Status transition flow
+- Access control by ticket owner or admin
+
+### Comments
+- Add comment to ticket
+- List comments by ticket
+
+### History
+- Register important ticket changes
+- Store status changes
+- Store priority changes
+
+### Dashboard
+- Count open tickets
+- Count resolved tickets
+- Count critical tickets
+- Group tickets by category
+
+### Documentation
+- Swagger API documentation
+- Interactive route visualization at `/api-docs`
 
 ---
 
@@ -50,80 +111,54 @@ I wanted to work on something that could help me improve my skills with Node.js,
 ```bash
 src/
   config/
+    db.js
+    swagger.js
   controllers/
+    authController.js
+    commentController.js
+    dashboardController.js
+    historyController.js
+    ticketController.js
   middleware/
+    authMiddleware.js
   models/
+    Comment.js
+    History.js
+    Ticket.js
+    User.js
   routes/
+    authRoutes.js
+    commentRoutes.js
+    dashboardRoutes.js
+    historyRoutes.js
+    ticketRoutes.js
+  services/
+    ticketService.js
+  utils/
+    generateToken.js
   app.js
   server.js
-Current Progress
+Current Status
 
-Initial project structure created
+Version 1 completed.
 
-Express server configured
+This project currently includes:
 
-MongoDB connection working
-
-Base models created
-
-Project published on GitHub
-
-Planned Features
 Authentication
 
-User registration
+Ticket management
 
-User login
+Business rules
 
-Password hashing
+Comments
 
-JWT authentication
+History tracking
 
-Protected routes
+Dashboard endpoints
 
-Tickets
+Swagger documentation
 
-Create ticket
-
-List tickets
-
-Get ticket by id
-
-Update ticket
-
-Close ticket
-
-Reopen ticket
-
-Business Rules
-
-Automatic priority logic
-
-Category validation
-
-Status flow
-
-User permissions
-
-Comments and History
-
-Add comments to tickets
-
-Store ticket update history
-
-Track important changes
-
-Dashboard
-
-Count open tickets
-
-Count resolved tickets
-
-Count critical tickets
-
-Group tickets by category
-
-Entities
+Main Entities
 User
 
 name
@@ -174,7 +209,7 @@ Why I built this project
 
 Most beginner backend projects are things like to-do lists or simple CRUD systems.
 
-I wanted to build something a little different, with a scenario that feels more real and with more business logic involved. A support ticket system looked like a good choice because it allows me to practice authentication, relationships between models, status flow, and other backend concepts in the same project.
+I wanted to build something a little different, with a scenario that feels more real and with more business logic involved. A support ticket system looked like a good choice because it allows me to practice authentication, relationships between models, status flow, permissions, comments, and history tracking in the same project.
 
 This project is also part of my learning journey as a Computer Science student focused on backend development.
 
@@ -207,36 +242,87 @@ npm run dev
 Production mode:
 
 npm start
-First Endpoint
+API Base URL
+http://localhost:3000
+Main Routes
+Auth
 
-Base route:
+POST /api/auth/register
 
-GET /
+POST /api/auth/login
 
-Example response:
+GET /api/auth/me
 
+Tickets
+
+POST /api/tickets
+
+GET /api/tickets
+
+GET /api/tickets/:id
+
+PUT /api/tickets/:id
+
+PATCH /api/tickets/:id/close
+
+PATCH /api/tickets/:id/reopen
+
+Comments
+
+POST /api/comments/:ticketId
+
+GET /api/comments/:ticketId
+
+History
+
+GET /api/history/:ticketId
+
+Dashboard
+
+GET /api/dashboard
+
+Swagger
+
+GET /api-docs
+
+Example Ticket JSON
 {
-  "message": "Smart Support API running"
+  "title": "Database connection issue",
+  "description": "The database is offline and the support team is checking the server",
+  "category": "infrastructure",
+  "impact": "high"
+}
+Example Dashboard Response
+{
+  "openTickets": 1,
+  "resolvedTickets": 0,
+  "criticalTickets": 0,
+  "ticketsByCategory": [
+    {
+      "total": 1,
+      "category": "integration"
+    },
+    {
+      "total": 1,
+      "category": "infrastructure"
+    }
+  ]
 }
 Future Improvements
 
-Role-based access control
+Role-based access control with more permission levels
 
-Better validation
+Better validation for request body data
 
-Advanced ticket filtering
+Pagination for tickets and comments
 
-API documentation with Swagger
+Search and filter endpoints
 
 Automated tests
 
 Deployment
 
-Pagination
-
-Search by category and status
-
-Analytics endpoints
+Better API response standardization
 
 About Me
 
@@ -269,4 +355,5 @@ Certification
 Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate
 
 GitHub
+
 https://github.com/ThiagoMF1
